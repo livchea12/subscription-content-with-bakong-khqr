@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\ContentStatus;
+use App\Enums\ContentTire;
+
 class Content extends Model
 {
     /** @use HasFactory<\Database\Factories\ContentFactory> */
@@ -13,6 +14,10 @@ class Content extends Model
     protected $fillable = [
         'title',
         'body',
-        'tier'=> ContentStatus::class,
+        'tire',
+    ];
+
+    protected $casts = [
+        'tire' => ContentTire::class,
     ];
 }
