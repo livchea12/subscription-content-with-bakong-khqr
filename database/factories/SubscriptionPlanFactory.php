@@ -2,22 +2,22 @@
 
 namespace Database\Factories;
 
+use App\Models\SubscriptionPlan;
+use App\Enums\Interval;
+use App\Enums\Currency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubscriptionPlan>
- */
 class SubscriptionPlanFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = SubscriptionPlan::class;
+
     public function definition(): array
     {
         return [
-            
+            'name' => fake()->words(2, true),
+            'price' => fake()->numberBetween(0, 100),
+            'interval' => fake()->randomElement(Interval::cases())->value,
+            'currency' => fake()->randomElement(Currency::cases())->value,
         ];
     }
 }

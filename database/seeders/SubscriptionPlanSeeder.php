@@ -15,7 +15,7 @@ class SubscriptionPlanSeeder extends Seeder
     public function run(): void
     {
         $plans = [
-            ['name' => 'free', 'price' => 10, 'interval' => Interval::MONTHLY, 'currency'=> Currency::DOLLAR],
+            ['name' => 'Free', 'price' => 0, 'interval' => Interval::MONTHLY, 'currency' => Currency::DOLLAR],
             ['name' => 'Plus', 'price' => 20, 'interval' => Interval::YEARLY, 'currency' => Currency::DOLLAR],
             ['name' => 'Premium', 'price' => 30, 'interval' => Interval::MONTHLY, 'currency' => Currency::DOLLAR],
         ];
