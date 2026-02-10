@@ -36,13 +36,33 @@ class AuthController extends Controller
     public function register(Request $request){
         $credentials = $request->only('name', 'email', 'password');
         $token = $this->authService->register($credentials);
-        
         return LoginResource::make($token);
     }
+
     //Logout
     public function logout(Request $request){
         $jti = JWTAuth::parseToken()->getPayload()->get('jti');
         $this->authService->logout($jti);
         return response()->json("Logout successfully");
+    }
+
+    //reset Password
+    public function resetPassword(Request $request){
+        $user = Auth::guard('api')->user();
+        $credentials = $request->only('old_password', 'new_password');
+        
+        $success = $this->authService->resetPassword($user, $credentials['old_password'], $credentials['new_password']);
+        
+        if (!$success) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Old password does not match'
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password reset successfully'
+        ]);
     }
 }

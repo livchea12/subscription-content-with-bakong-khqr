@@ -54,4 +54,13 @@ class AuthService {
         Auth::guard('api')->logout();
         return $this->authRepo->invalidateToken($jti);
     }
+
+    public function resetPassword($user, $oldPassword, $newPassword){
+        if (!Hash::check($oldPassword, $user->password)) {
+            return false;
+        }
+        $user->password = Hash::make($newPassword);
+        $user->save();
+        return true;
+    }
 }

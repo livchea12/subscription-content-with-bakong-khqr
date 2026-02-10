@@ -30,5 +30,9 @@ class AuthRepo implements AuthRepoInterface
             'is_used'=>true
         ]);
     }
+
+    public function updateUser(array $data){
+        return User::where('id', $data['id'])->update($data);
+    }
 }
 
