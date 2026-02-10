@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contents', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('body', 255);
-            $table->string('tier');
-            $table->timestamps();
+        Schema::table('user_tokens', function (Blueprint $table) {
+            $table->string('jti');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contents');
+        Schema::table('user_tokens', function (Blueprint $table) {
+            $table->dropColumn('jti');
+        });
     }
 };

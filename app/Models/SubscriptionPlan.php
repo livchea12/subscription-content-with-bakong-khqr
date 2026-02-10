@@ -20,4 +20,9 @@ class SubscriptionPlan extends Model
     protected $casts = [
         'interval' => Interval::class,
     ];
+
+    public function userSubscriptions()
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
 }

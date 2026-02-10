@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ContentTire: string
+enum ContentTier: string
 {
     case FREE = 'free';
 

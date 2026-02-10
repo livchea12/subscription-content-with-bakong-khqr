@@ -19,4 +19,19 @@ class UserSubscription extends Model
     protected $casts = [
         'status' => UserSubscriptionStatus::class,
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function subscriptionPlan()
+    {
+        return $this->belongsTo(SubscriptionPlan::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

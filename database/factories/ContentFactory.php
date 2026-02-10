@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\ContentTire;
+use App\Enums\ContentTier;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\content>
  */
@@ -16,11 +16,11 @@ class ContentFactory extends Factory
      */
     public function definition(): array
     {
-        $tire = fake()->randomElement([ContentTire::FREE, ContentTire::PREMIUM]);
+        $tier = fake()->randomElement([ContentTier::FREE, ContentTier::PREMIUM]);
         return [
             'title' => fake()->sentence(),
             'body' => fake()->paragraph(),
-            'tire' => $tire,
+            'tier' => $tier,
         ];
     }
 }

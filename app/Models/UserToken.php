@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserTokens extends Model
+class UserToken extends Model
 {
     protected $fillable = [
         'user_id',
         'token',
         'expired_at',
-        'is_used'
+        'is_used',
+        'jti'
     ];
 
     protected function casts(): array
@@ -19,5 +20,10 @@ class UserTokens extends Model
             'expired_at' => 'datetime',
             'token' => 'hashed',
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

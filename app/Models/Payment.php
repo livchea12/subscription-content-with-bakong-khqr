@@ -6,9 +6,9 @@ use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Payments extends Model
+class Payment extends Model
 {
-    /** @use HasFactory<\Database\Factories\PaymentsFactory> */
+    /** @use HasFactory<\Database\Factories\PaymentFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -23,4 +23,9 @@ class Payments extends Model
     protected $casts = [
         'status' => PaymentStatus::class,
     ];
+
+    public function userSubscription()
+    {
+        return $this->belongsTo(UserSubscription::class);
+    }
 }
