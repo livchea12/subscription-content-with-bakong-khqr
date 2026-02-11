@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\UserSubscriptionStatus;
+
 class UserSubscription extends Model
 {
     /** @use HasFactory<\Database\Factories\UserSubscriptionFactory> */
@@ -14,10 +15,12 @@ class UserSubscription extends Model
         'user_id',
         'subscription_plan_id',
         'status',
+        'expired_at',
     ];
 
     protected $casts = [
         'status' => UserSubscriptionStatus::class,
+        'expired_at' => 'datetime',
     ];
 
     public function user()

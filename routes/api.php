@@ -8,4 +8,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
 
     require __DIR__ . '/auth-api.php';
     require __DIR__ . '/content-api.php';
+    require __DIR__ . '/userSubscription-api.php';
 });
