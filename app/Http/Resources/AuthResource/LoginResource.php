@@ -4,6 +4,7 @@ namespace App\Http\Resources\AuthResource;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
 class LoginResource extends JsonResource
 {
@@ -17,7 +18,8 @@ class LoginResource extends JsonResource
         return [
             'status'=>true,
             'token' => $this->resource['access_token'],
-            'refresh_token' => $this->resource['refresh_token']
+            'refresh_token' => $this->resource['refresh_token'],
+            'user' => UserResource::make($this->resource['user'])
         ];
     }
 }

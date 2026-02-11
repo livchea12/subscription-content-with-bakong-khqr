@@ -24,7 +24,6 @@ class AuthController extends Controller
         $credentials = $request->validated();
 
         $token = $this->authService->login($credentials);
-
         if (!$token) {
             return response()->json([
                 'status' => false,
@@ -32,7 +31,16 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return LoginResource::make($token);
+        $user = Auth::guard('api')->user();
+        $profile = $this->authService->getUser($user);
+        
+        $data = [
+            'access_token' => $token['access_token'],
+            'refresh_token' => $token['refresh_token'],
+            'user' => $profile
+        ];
+
+        return LoginResource::make($data);
     }
 
     //Register
@@ -67,6 +75,18 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Password reset successfully'
+        ]);
+    }
+
+
+    public function getProfile(Request $request){
+        $user = Auth::guard('api')->user();
+        
+        $profile = $this->authService->getUser($user);
+
+        return response()->json([
+            'status' => true,
+            'data' => $profile
         ]);
     }
 }

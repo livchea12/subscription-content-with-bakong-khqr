@@ -34,5 +34,9 @@ class AuthRepo implements AuthRepoInterface
     public function updateUser(array $data){
         return User::where('id', $data['id'])->update($data);
     }
+
+    public function getUser($user): User{
+        return User::where('id', $user->id)->first();
+    }
 }
 

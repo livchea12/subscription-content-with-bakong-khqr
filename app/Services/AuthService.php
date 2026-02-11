@@ -63,4 +63,8 @@ class AuthService {
         $user->save();
         return true;
     }
+
+    public function getUser($user){
+        return $this->authRepo->getUser($user);
+    }
 }
