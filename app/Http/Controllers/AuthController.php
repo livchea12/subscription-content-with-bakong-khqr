@@ -17,7 +17,7 @@ use App\Http\Resources\AuthResource\LoginResource;
 
 class AuthController extends Controller
 {
-    public function __construct(private AuthService $authService){}
+    public function __construct(private AuthService $authService) {}
     //Login
     public function login(LoginRequest $request)
     {
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         $user = Auth::guard('api')->user();
         $profile = $this->authService->getUser($user);
-        
+
         $data = [
             'access_token' => $token['access_token'],
             'refresh_token' => $token['refresh_token'],
@@ -44,27 +44,36 @@ class AuthController extends Controller
     }
 
     //Register
-    public function register(RegisterRequest $request){
+    public function register(RegisterRequest $request)
+    {
         $credentials = $request->only('name', 'email', 'password');
         $token = $this->authService->register($credentials);
+
+        $user = Auth::guard('api')->user();
+        $profile = $this->authService->getUser($user);
+
+        $token['user'] = $profile;
+
         return LoginResource::make($token);
     }
 
     //Logout
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $jti = JWTAuth::parseToken()->getPayload()->get('jti');
         $this->authService->logout($jti);
-        return response()->json(["status"=>true ,"message"=>"Logout successfully"]);
+        return response()->json(["status" => true, "message" => "Logout successfully"]);
     }
 
     //reset Password
-    public function resetPassword(ResetPasswordRequest $request){
+    public function resetPassword(ResetPasswordRequest $request)
+    {
         $user = Auth::guard('api')->user();
-        
+
         $credentials = $request->only('old_password', 'new_password');
-        
+
         $success = $this->authService->resetPassword($user, $credentials['old_password'], $credentials['new_password']);
-        
+
         if (!$success) {
             return response()->json([
                 'status' => false,
@@ -79,9 +88,10 @@ class AuthController extends Controller
     }
 
 
-    public function getProfile(Request $request){
+    public function getProfile(Request $request)
+    {
         $user = Auth::guard('api')->user();
-        
+
         $profile = $this->authService->getUser($user);
 
         return response()->json([
