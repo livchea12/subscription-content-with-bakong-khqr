@@ -4,8 +4,7 @@ namespace App\Enums;
 
 enum UserSubscriptionStatus: string
 {
-    case PENDING = 'pending';
-    case PROCESSING = 'processing';
-    case COMPLETED = 'completed';
-    case FAILED = 'failed';
+    case ACTIVE = 'active';
+    case EXPIRED = 'expired';
+    case INACTIVE = 'inactive';
 }
