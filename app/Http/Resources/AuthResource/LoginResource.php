@@ -15,6 +15,7 @@ class LoginResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'status'=>true,
             'token' => $this->resource['access_token'],
             'refresh_token' => $this->resource['refresh_token']
         ];

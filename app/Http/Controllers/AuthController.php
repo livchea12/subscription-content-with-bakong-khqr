@@ -11,7 +11,10 @@ use PhpParser\Node\Expr\FuncCall;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\AuthRequest\LoginRequest;
+use App\Http\Requests\AuthRequest\RegisterRequest;
+use App\Http\Requests\AuthRequest\ResetPasswordRequest;
 use App\Http\Resources\AuthResource\LoginResource;
+
 class AuthController extends Controller
 {
     public function __construct(private AuthService $authService){}
@@ -33,7 +36,7 @@ class AuthController extends Controller
     }
 
     //Register
-    public function register(Request $request){
+    public function register(RegisterRequest $request){
         $credentials = $request->only('name', 'email', 'password');
         $token = $this->authService->register($credentials);
         return LoginResource::make($token);
@@ -43,12 +46,13 @@ class AuthController extends Controller
     public function logout(Request $request){
         $jti = JWTAuth::parseToken()->getPayload()->get('jti');
         $this->authService->logout($jti);
-        return response()->json("Logout successfully");
+        return response()->json(["status"=>true ,"message"=>"Logout successfully"]);
     }
 
     //reset Password
-    public function resetPassword(Request $request){
+    public function resetPassword(ResetPasswordRequest $request){
         $user = Auth::guard('api')->user();
+        
         $credentials = $request->only('old_password', 'new_password');
         
         $success = $this->authService->resetPassword($user, $credentials['old_password'], $credentials['new_password']);
