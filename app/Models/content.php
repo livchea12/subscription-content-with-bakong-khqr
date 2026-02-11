@@ -20,4 +20,9 @@ class Content extends Model
     protected $casts = [
         'tier' => ContentTier::class,
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
