@@ -14,7 +14,15 @@ class UserSubscriptionController extends Controller
     {
         $user = $request->user();
         $subscriptionPlanId = $subscriptionPlan->id;
-        $this->userSubscriptionService->subscribe($user->id, $subscriptionPlanId);
+        $result = $this->userSubscriptionService->subscribe($user->id, $subscriptionPlanId);
+        
+        if(!$result){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User can have only one active subscrption plan',
+            ]);    
+        }
+        
         return response()->json([
             'status'=> 'success',
             'message' => 'Subscribed successfully',
