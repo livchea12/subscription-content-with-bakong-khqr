@@ -8,9 +8,32 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContentRepo implements ContentRepoInterface
 {
-    public function getAll(int $perPage = 10): LengthAwarePaginator
+    public function getAll(array $allowedTiers, int $perPage = 10, ?string $search = null, string $sort = 'desc', ?string $sortBy = null): LengthAwarePaginator
     {
-        return Content::with('creator')->paginate($perPage);
+        $query = Content::query();
+
+        // Filter by allowed tiers
+        $query->whereIn('tier', $allowedTiers);
+
+        // search filter
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        // Apply sorting
+        switch ($sortBy) {
+            case 'title':
+                $query->orderBy('title', $sort);
+                break;
+            case 'tier':
+                $query->orderBy('tier', $sort);
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function findById(Content $content): ?Content

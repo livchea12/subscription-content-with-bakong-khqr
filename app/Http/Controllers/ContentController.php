@@ -21,9 +21,16 @@ class ContentController extends Controller
         $this->contentService = $contentService;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request,): JsonResponse
     {
-        $contents = $this->contentService->getAllContents($request->get('per_page', 10));
+
+        $user = Auth::guard('api')->user();
+        $perPage = $request->get('per_page', 10);
+        $search = $request->get('search');
+        $sort = $request->get('sort', 'asc');
+        $sortBy = $request->get('sort_by', 'created_at');
+        $filter = $request->get('filter');
+        $contents = $this->contentService->getAllContents($user, $perPage, $search, $sort, $sortBy, $filter);
 
         return response()->json([
             'status' => 'success',
