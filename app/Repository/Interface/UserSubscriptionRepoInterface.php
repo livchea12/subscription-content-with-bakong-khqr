@@ -9,4 +9,5 @@ use DateTimeInterface;
 interface UserSubscriptionRepoInterface
 {
     public function subscribe(int $userId, int $subscriptionPlanId, DateTimeInterface $expiredAt): UserSubscription;
+    public function updateStatus($userSubscriptionId, $status);
 }

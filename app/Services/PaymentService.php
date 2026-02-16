@@ -4,27 +4,32 @@ namespace App\Services;
 
 use App\Repository\Interface\PaymentRepoInterface;
 use KHQR\BakongKHQR;
-use KHQR\Helpers\KHQRData;
-use KHQR\Models\IndividualInfo;
-class PaymentService {
-    public function __construct(private PaymentRepoInterface $paymentRepo){}
+use App\Enums\PaymentStatus;
+use Illuminate\Support\Facades\Log;
+class PaymentService
+{
+    private $bakongKhqr;
 
-    public function createPayment($userSubscriptionId, $transactionId, $amount){
-
+    public function __construct(private PaymentRepoInterface $paymentRepo)
+    {
+        $this->bakongKhqr = new BakongKHQR(config('khqr.api_token'));
     }
 
+    public function checkPaymentStatus($paymentId)
+    {
+        $payment = $this->paymentRepo->getPaymentById($paymentId);
+        log::info ("MD5: $payment->transaction_id");
+        $response = $this->bakongKhqr->checkTransactionByMD5($payment->transaction_id);
+        $responseCode = $response['responseCode'] ?? null;
 
-    public function generateKHQR($amount){
+        log::info("Respone code: $responseCode");
+        
 
-        $individualInfo = new IndividualInfo(
-            bakongAccountID: config('khqr.merchant_id'),
-            merchantName: config('khqr.merchant_name'),
-            merchantCity: 'PHNOM PENH',
-            currency: KHQRData::CURRENCY_USD,
-            amount: $amount
-        );
-        $khqr = BakongKHQR::generateIndividual($individualInfo);
-        return $khqr;
+        return $response;   
+    }
+
+    public function updatePaymentStatus($paymentId, $status)
+    {
+        return $this->paymentRepo->updatePaymentStatus($paymentId, $status);
     }
 }
-

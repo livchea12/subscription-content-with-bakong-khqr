@@ -14,7 +14,7 @@ class UserSubscriptionController extends Controller
     {
         $user = $request->user();
         $subscriptionPlanId = $subscriptionPlan->id;
-        $result = $this->userSubscriptionService->subscribe($user->id, $subscriptionPlanId);
+        $result = $this->userSubscriptionService->subscribe(    $user->id, $subscriptionPlanId);
         
         if(!$result){
             return response()->json([
@@ -26,6 +26,7 @@ class UserSubscriptionController extends Controller
         return response()->json([
             'status'=> 'success',
             'message' => 'Subscribed successfully',
+            'data'=>$result,
         ]);
     }
 }

@@ -14,8 +14,13 @@ class UserSubscriptionRepo implements UserSubscriptionRepoInterface
         return UserSubscription::create([
             'user_id' => $userId,
             'subscription_plan_id' => $subscriptionPlanId,
-            'status' => UserSubscriptionStatus::ACTIVE,
+            'status' => UserSubscriptionStatus::PENDING_PAYMENT,
             'expired_at' => $expiredAt,
         ]);
+    }
+
+    public function updateStatus($userSubscriptionId, $status)
+    {
+        return UserSubscription::where('id', $userSubscriptionId)->update(['status' => $status]);
     }
 }
