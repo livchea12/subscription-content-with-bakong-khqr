@@ -26,7 +26,7 @@ class UserSubscriptionService
             //create user subscription record
             $plan = SubscriptionPlan::findOrFail($subscriptionPlanId);
             $existingPlan = UserSubscription::where('user_id', $userId)
-                ->where('status', 'active')->orWhere('status', 'pending_payment')->first();
+                ->where('status', 'active')->first();
 
             if ($existingPlan) {
                 return false;

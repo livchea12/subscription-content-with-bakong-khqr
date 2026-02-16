@@ -13,6 +13,9 @@ use App\Repository\Interface\ContentRepoInterface;
 use App\Repository\ContentRepo;
 use App\Repository\Interface\PaymentRepoInterface;
 use App\Repository\PaymentRepo;
+use App\Repository\Interface\SubscriptionPlanRepoInterface;
+use App\Repository\SubscriptionPlanRepo;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContentRepoInterface::class, ContentRepo::class);
         $this->app->bind(UserSubscriptionRepoInterface::class, UserSubscriptionRepo::class);
         $this->app->bind(PaymentRepoInterface::class, PaymentRepo::class);
+        $this->app->bind(SubscriptionPlanRepoInterface::class, SubscriptionPlanRepo::class);
     }
 
     /**
