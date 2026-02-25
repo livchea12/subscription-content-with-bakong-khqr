@@ -15,6 +15,7 @@ class Content extends Model
         'title',
         'body',
         'tier',
+        'view',
         'created_by',
     ];
 

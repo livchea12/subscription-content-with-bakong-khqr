@@ -54,7 +54,7 @@ class ContentService
 
     public function createContent(array $data): Content
     {
-        return $this->contentRepo->create($data);
+        return $this->contentRepo->create(data: $data);
     }
 
     public function updateContent(Content $content, array $data): bool

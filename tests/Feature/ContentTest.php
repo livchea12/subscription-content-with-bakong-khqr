@@ -6,10 +6,7 @@ use App\Enums\ContentTier;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Database\Seeders\RolePermissionSeeder;
-use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
-use function Pest\Laravel\putJson;
-use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, RefreshDatabase::class);
@@ -138,3 +135,19 @@ it('fails validation when creating content with missing fields', function () {
     $response->assertStatus(422)
         ->assertJsonValidationErrors(['title', 'body', 'tier']);
 });
+
+it('increase view when user click on each content', function () {
+    $content = Content::factory()->create(['created_by' => $this->user->id]);
+
+    $response = actingAs($this->user, 'api')->getJson('/api/v1/contents/{content}');
+
+    $response->assertStatus(200)
+        ->assertJson([
+            'status' => 'success',
+            'data' => [
+                'id' => $content->id,
+                'title' => $content->title,
+            ]
+        ]);
+});
+

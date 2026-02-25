@@ -42,7 +42,7 @@ class ContentController extends Controller
     {
         $data = $request->validated();
         $data['created_by'] = Auth::guard('api')->user()->id;
-
+        
         $content = $this->contentService->createContent($data);
         $content->load('creator');
 
