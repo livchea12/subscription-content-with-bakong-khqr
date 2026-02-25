@@ -71,4 +71,4 @@ it('cannot create content with missing value', function () {
         'created_by' => $user->id
     ];
     expect(fn() => $this->repo->create($data))->toThrow(\Illuminate\Database\QueryException::class);
-})->only();
+});
