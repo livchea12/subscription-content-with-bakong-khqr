@@ -12,4 +12,6 @@ interface ContentRepoInterface
     public function create(array $data): Content;
     public function update(Content $content, array $data): bool;
     public function delete(Content $content): bool;
+
+    public function incrementView(Content $content); 
 }

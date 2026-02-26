@@ -21,7 +21,7 @@ class UserSubscriptionController extends Controller
                 'status' => 'error',
                 'message' => 'User can have only one active subscrption plan',
             ]);    
-        }
+        }   
         
         return response()->json([
             'status'=> 'success',

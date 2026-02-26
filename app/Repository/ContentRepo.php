@@ -55,4 +55,11 @@ class ContentRepo implements ContentRepoInterface
     {
         return $content->delete();
     }
+
+    public function incrementView(Content $content)
+    {
+
+        return $content->increment('view');
+
+    }
 }

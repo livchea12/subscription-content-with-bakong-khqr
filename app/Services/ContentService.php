@@ -49,6 +49,7 @@ class ContentService
 
     public function getContentById(Content $content): ?Content
     {
+        $this->contentRepo->incrementView($content);
         return $this->contentRepo->findById($content);
     }
 

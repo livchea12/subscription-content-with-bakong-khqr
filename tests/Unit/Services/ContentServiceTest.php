@@ -63,4 +63,4 @@ it('can create content ', function(){
     $result = $this->service->createContent($data);
     echo $result;
     expect($result)->toBeInstanceOf(Content::class);
-})->only();
+});
