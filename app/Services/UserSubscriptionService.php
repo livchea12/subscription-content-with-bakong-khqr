@@ -4,19 +4,22 @@ namespace App\Services;
 
 use App\Repository\Interface\PaymentRepoInterface;
 use App\Repository\Interface\UserSubscriptionRepoInterface;
+use App\Repository\Interface\SubscriptionPlanRepoInterface;
 use App\Models\SubscriptionPlan;
 use App\Models\UserSubscription;
 use KHQR\BakongKHQR;
 use KHQR\Helpers\KHQRData;
 use KHQR\Models\IndividualInfo;
 use KHQR\Models\SourceInfo;
-use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\CheckBakongPaymentStatus;
 
 class UserSubscriptionService
 {
-    public function __construct(private UserSubscriptionRepoInterface $userSubscriptionRepo, private PaymentRepoInterface $paymentRepo) {}
+    public function __construct(private UserSubscriptionRepoInterface $userSubscriptionRepo, private PaymentRepoInterface $paymentRepo, private SubscriptionPlanRepoInterface $subscriptionPlanRepo)
+    {
+    }
 
     public function subscribe($userId, $subscriptionPlanId)
     {
@@ -80,5 +83,21 @@ class UserSubscriptionService
     public function updateStatus($userSubscriptionId, $status)
     {
         return $this->userSubscriptionRepo->updateStatus($userSubscriptionId, $status);
+    }
+
+
+    public function getSubscribePlanState(User $user)
+    {
+        $userSubscription = $this->userSubscriptionRepo->getUserSubscription($user->id);
+        if (!$userSubscription) {
+            return null;
+        }
+
+        $subscriptionPlan = $this->subscriptionPlanRepo->getPlanDetail($userSubscription->subscription_plan_id);
+
+        return [
+            'userSubscription' => $userSubscription,
+            'subscriptionPlan' => $subscriptionPlan,
+        ];
     }
 }

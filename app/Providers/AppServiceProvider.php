@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     */
+     */ 
     public function boot(): void
     {
         Gate::before(function ($user, $ability) {

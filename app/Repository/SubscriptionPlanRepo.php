@@ -11,4 +11,9 @@ class SubscriptionPlanRepo implements SubscriptionPlanRepoInterface
     {
         return SubscriptionPlan::all();
     }
+
+    public function getPlanDetail($planId): SubscriptionPlan{
+        return SubscriptionPlan::find($planId);
+    }
+
 }
